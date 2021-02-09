@@ -116,6 +116,8 @@ async def change_game():
         await asyncio.sleep(DELAY)
         await bot.change_presence(activity=discord.Game(name="BigBlueButton"))
         await asyncio.sleep(DELAY)
+        await bot.change_presence(activity=discord.Game(name="BESTER BOT"))
+        await asyncio.sleep(DELAY)
 
 
 bot.loop.create_task(change_game())
