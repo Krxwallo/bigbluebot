@@ -12,7 +12,6 @@ import asyncio
 
 from native_messaging import NativeMessagingThread
 
-
 VERSION = "1.0.0-alpha"
 
 load_dotenv()
@@ -103,5 +102,22 @@ async def get_data():
         await asyncio.sleep(0.02)
 
 
+DELAY = 30
+
+
+async def change_game():
+    while True:
+        await asyncio.sleep(DELAY)
+        await bot.change_presence(activity=discord.Game(name="BigBlueBot"))
+        await asyncio.sleep(DELAY)
+        await bot.change_presence(activity=discord.Game(name="BBB"))
+        await asyncio.sleep(DELAY)
+        await bot.change_presence(activity=discord.Game(name="Version 1.0.0-alpha"))
+        await asyncio.sleep(DELAY)
+        await bot.change_presence(activity=discord.Game(name="BigBlueButton"))
+        await asyncio.sleep(DELAY)
+
+
+bot.loop.create_task(change_game())
 bot.loop.create_task(get_data())
 bot.run(TOKEN)
