@@ -1,0 +1,7 @@
+{
+  "name": "bigbluebot",
+  "description": "Host for talking with BigBlueBrowserextension",
+  "path": "C:\\Users\\Ken\\Documents\\discordbots\\bigbluebot_win.bat",
+  "type": "stdio",
+  "allowed_extensions": [ "freshkenny@bigbluebot.de" ]
+}
