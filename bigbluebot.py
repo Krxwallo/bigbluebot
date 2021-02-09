@@ -12,6 +12,9 @@ import asyncio
 
 from native_messaging import NativeMessagingThread
 
+
+VERSION = "1.0.0-alpha"
+
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
