@@ -74,7 +74,7 @@ q = Queue()
 thread = NativeMessagingThread(q)
 thread.start()
 
-
+# test
 # logging.debug("Started thread.")
 
 
