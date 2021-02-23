@@ -120,6 +120,6 @@ async def change_game():
         await asyncio.sleep(DELAY)
 
 
-bot.loop.create_task(change_game())
+# bot.loop.create_task(change_game())
 bot.loop.create_task(get_data())
 bot.run(TOKEN)
