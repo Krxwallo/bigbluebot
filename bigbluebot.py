@@ -81,11 +81,13 @@ thread.start()
 
 
 async def onStatusChange(name, status):
+    name = str(name).lower()
     for guild in bot.guilds:
         for member in guild.members:
             surname = name.split(' ')[0]
             lastname = name.split('-')[1]
-            if surname in str(member.nick) and lastname in str(member.nick):
+            nickname = str(member.nick).lower()
+            if surname in nickname and lastname in nickname:
                 print(member.nick + " | " + name)
                 if status == "muted":
                     await member.edit(mute=False, deafen=False)
