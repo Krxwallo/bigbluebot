@@ -43,12 +43,9 @@ class NativeMessagingThread(Thread):
     def loop(self):
         while True:
             receivedMessage = self._getMessage()
-            self._sendMessage(self._encodeMessage("Received message: " + receivedMessage))
-            name = receivedMessage.split("_")[0]
-            status = receivedMessage.split("_")[1]
-            self._sendMessage(self._encodeMessage("Name = " + name + " | Status = " + status))
+            print("Received message: " + receivedMessage)
             if receivedMessage == "ping":
-                self._sendMessage(self._encodeMessage("Hello there"))
+                print(self._encodeMessage("Hello there"))
             self.queue.put(receivedMessage)
 
     def stop(self):
