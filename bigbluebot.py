@@ -1,4 +1,5 @@
 # bigbluebot.py
+import logging
 import os
 import sys
 from queue import Queue
@@ -24,10 +25,12 @@ intents.members = True
 
 bot = commands.Bot(command_prefix='+', intents=intents)
 
+print("bigbluebot.py called.")
+
 
 @bot.event
 async def on_ready():
-    # logging.info("Starting up...")
+    print("Starting up...")
     if len(sys.argv) > 3 and sys.argv[1] == "restart":
         # logging.info(f'Restarted.')
         await bot.get_channel(int(sys.argv[2])).send("Restarted.")
@@ -74,6 +77,7 @@ q = Queue()
 thread = NativeMessagingThread(q)
 thread.start()
 
+
 # test
 # logging.debug("Started thread.")
 
@@ -84,8 +88,10 @@ async def onStatusChange(name, status):
             if member.nick == name:
                 if status == "muted":
                     await member.edit(mute=False, deafen=False)
+                    print("Unmuted " + member.name)
                 elif status == "voice":
                     await member.edit(mute=True, deafen=True)
+                    print("Muted " + member.name)
 
 
 async def get_data():
@@ -104,22 +110,8 @@ async def get_data():
 
 DELAY = 30
 
-
-async def change_game():
-    while True:
-        await asyncio.sleep(DELAY)
-        await bot.change_presence(activity=discord.Game(name="BigBlueBot"))
-        await asyncio.sleep(DELAY)
-        await bot.change_presence(activity=discord.Game(name="BBB"))
-        await asyncio.sleep(DELAY)
-        await bot.change_presence(activity=discord.Game(name="Version 1.0.0-alpha"))
-        await asyncio.sleep(DELAY)
-        await bot.change_presence(activity=discord.Game(name="BigBlueButton"))
-        await asyncio.sleep(DELAY)
-        await bot.change_presence(activity=discord.Game(name="BESTER BOT"))
-        await asyncio.sleep(DELAY)
-
-
 # bot.loop.create_task(change_game())
 bot.loop.create_task(get_data())
+
+print("Starting to run bot.")
 bot.run(TOKEN)
