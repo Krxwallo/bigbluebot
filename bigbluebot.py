@@ -1,15 +1,13 @@
 # bigbluebot.py
-import logging
+import asyncio
 import os
 import sys
+from _queue import Empty
 from queue import Queue
 
 import discord
-from _queue import Empty
 from discord.ext import commands
 from dotenv import load_dotenv
-
-import asyncio
 
 from native_messaging import NativeMessagingThread
 
@@ -85,7 +83,8 @@ thread.start()
 async def onStatusChange(name, status):
     for guild in bot.guilds:
         for member in guild.members:
-            if member.nick == name:
+            if str(name) in str(member.nick):
+                print(member.nick + " | " + name)
                 if status == "muted":
                     await member.edit(mute=False, deafen=False)
                     print("Unmuted " + member.name)
