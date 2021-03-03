@@ -86,9 +86,8 @@ async def onStatusChange(name, status):
     for guild in bot.guilds:
         for member in guild.members:
             surname = name.split(' ')[0]
-            lastname = name.split('-')[1]
             nickname = str(member.nick).lower()
-            if surname in nickname and lastname in nickname:
+            if surname in nickname:
                 if status == "muted":
                     await member.edit(mute=False, deafen=False)
                     print("Unmuted " + member.name)
@@ -106,9 +105,9 @@ async def get_data():
                 print("Got DATA")
                 # Process data
                 await onStatusChange(data.split("_")[0], data.split("_")[1])
-        except Empty as e:
+        except Empty:
             pass
-        await asyncio.sleep(0.02)
+        await asyncio.sleep(0.05)
 
 
 DELAY = 30
