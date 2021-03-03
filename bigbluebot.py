@@ -26,6 +26,7 @@ bot = commands.Bot(command_prefix='+', intents=intents)
 print("bigbluebot.py called.")
 
 
+
 @bot.event
 async def on_ready():
     print("Starting up...")
@@ -48,7 +49,7 @@ async def restart(ctx):
 
 @bot.command(aliases=["state"])
 async def status(ctx):
-    await ctx.send("Online.")
+    await ctx.send("Online." + ctx.message.author.name)
 
 
 @commands.has_permissions(administrator=True)
@@ -88,7 +89,6 @@ async def onStatusChange(name, status):
             lastname = name.split('-')[1]
             nickname = str(member.nick).lower()
             if surname in nickname and lastname in nickname:
-                print(member.nick + " | " + name)
                 if status == "muted":
                     await member.edit(mute=False, deafen=False)
                     print("Unmuted " + member.name)
@@ -103,9 +103,9 @@ async def get_data():
         try:
             data = q.get(block=False)
             if data:
+                print("Got DATA")
                 # Process data
                 await onStatusChange(data.split("_")[0], data.split("_")[1])
-                pass
         except Empty as e:
             pass
         await asyncio.sleep(0.02)
@@ -113,7 +113,6 @@ async def get_data():
 
 DELAY = 30
 
-# bot.loop.create_task(change_game())
 bot.loop.create_task(get_data())
 
 print("Starting to run bot.")

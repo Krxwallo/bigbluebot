@@ -12,14 +12,11 @@ class NativeMessagingThread(Thread):
 
     @staticmethod
     def _getMessage():
-        #print("Waiting for next message.")
         rawLength = sys.stdin.buffer.read(4)
-        #print("Length is: " + str(rawLength))
         if len(rawLength) == 0:
             sys.exit(0)
         messageLength = struct.unpack('@I', rawLength)[0]
         message = sys.stdin.buffer.read(messageLength).decode('utf-8')
-        #print("Read message:" + str(message))
         return json.loads(message)
 
     # Encode a message for transmission,
@@ -45,13 +42,12 @@ class NativeMessagingThread(Thread):
             receivedMessage = self._getMessage()
             print("Received message: " + receivedMessage)
             if receivedMessage == "ping":
-                print(self._encodeMessage("Hello there"))
+                print("Hello there")
+            if self.queue.empty():
+                print("Queue is already empty")
+            else:
+                print("Queue is not empty. (" + str(self.queue.qsize()) + ")")
             self.queue.put(receivedMessage)
 
     def stop(self):
         pass
-
-
-#print("Starting thread.")
-#NativeMessagingThread().loop()
-#print("Thread stopped.")
