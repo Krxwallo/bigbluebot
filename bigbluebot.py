@@ -26,15 +26,22 @@ bot = commands.Bot(command_prefix='+', intents=intents)
 print("bigbluebot.py called.")
 
 
-
 @bot.event
 async def on_ready():
     print("Starting up...")
+
     if len(sys.argv) > 3 and sys.argv[1] == "restart":
         # logging.info(f'Restarted.')
         await bot.get_channel(int(sys.argv[2])).send("Restarted.")
     else:
         await bot.get_channel(BIG_BLUE_CHANNEL_ID).send("Bot is online.")
+#    for guild in bot.guilds:
+#        if guild.name == "9a":
+#            for member in guild.members:
+#                try:
+#                    await member.edit(nick=None)
+#                except discord.errors.Forbidden:
+#                    pass
     # logging.info("Started up.")
 
 
@@ -89,10 +96,27 @@ async def onStatusChange(name, status):
             nickname = str(member.nick).lower()
             if surname in nickname:
                 if status == "muted":
-                    await member.edit(mute=False, deafen=False)
+                    try:
+                        await member.edit(mute=False, deafen=False)
+                    except discord.errors.Forbidden:
+                        print("Not allowed to mute/unmute " + member.name)
+                    except discord.errors.HTTPException as e:
+                        print("HTTPError: " + e.text)
                     print("Unmuted " + member.name)
+                    try:
+                        await member.edit(nick=member.nick.replace(" | talking", ""))
+                    except discord.errors.Forbidden:
+                        pass
                 elif status == "voice":
-                    await member.edit(mute=True, deafen=True)
+                    try:
+                        await member.edit(mute=True, deafen=True)
+                    except discord.errors.HTTPException as e:
+                        print("HTTPError: " + e.text)
+
+                    try:
+                        await member.edit(nick=member.nick + " | talking")
+                    except discord.errors.Forbidden:
+                        pass
                     print("Muted " + member.name)
 
 
